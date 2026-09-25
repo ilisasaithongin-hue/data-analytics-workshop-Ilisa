@@ -116,7 +116,19 @@ print(df.describe())
 อย่าอ่านทุกตัวเลข ให้หาเพียง:
 - ค่าที่ดูสูง/ต่ำผิดปกติ
 - ช่วงของ Spend/Revenue/ROAS
-- สิ่งที่ควรตรวจเพิ่ม
+- สิ่งที่ควรตรวจเพิ่ม  ค่าที่ออกมา คือ
+              Spend   Impressions  ...  Conversion_Rate         ROAS
+count    320.000000  3.200000e+02  ...       320.000000   320.000000
+mean    8324.066031  5.447139e+05  ...         0.050334   166.470011
+std     4223.786908  3.145730e+05  ...         0.025372   233.129407
+min     1521.840000  7.469300e+04  ...         0.013170     3.438378
+25%     4592.990000  2.811028e+05  ...         0.029572    39.594240
+50%     7961.005000  5.066650e+05  ...         0.048226   100.747528
+75%    11732.460000  7.584050e+05  ...         0.066999   193.009121
+max    15993.890000  1.377480e+06  ...         0.147899  2510.999786
+
+[8 rows x 8 columns]
+- 
 
 ### Checkpoint
 `describe()` ไม่ตอบ Business Question โดยตรง แต่ช่วย “รู้จักข้อมูล” ก่อนวิเคราะห์
@@ -129,6 +141,22 @@ print(df.describe())
 print(df.isnull().sum())
 print("duplicates:", df.duplicated().sum())
 ```
+สิ่งที่ได้ 
+[8 rows x 8 columns]
+Month               0
+Campaign            0
+Channel             0
+Customer_Segment    0
+Spend               0
+Impressions         0
+Clicks              0
+Conversions         0
+Revenue             0
+CTR                 0
+Conversion_Rate     0
+ROAS                0
+dtype: int64
+duplicates: 0
 
 ตรวจ category:
 
@@ -136,6 +164,72 @@ print("duplicates:", df.duplicated().sum())
 print(df["Channel"].value_counts())
 print(df["Customer_Segment"].value_counts())
 ```
+สิ่งที่ได้ 
+    Month Campaign    Channel  ...       CTR  Conversion_Rate        ROAS
+0  2026-04-01   CMP-15     Social  ...  0.033970         0.037371  210.962836
+1  2026-02-01   CMP-14  Affiliate  ...  0.025994         0.053035  107.251179
+2  2026-02-01   CMP-03      Email  ...  0.068372         0.062505  170.733945
+3  2026-07-01   CMP-09  Affiliate  ...  0.042127         0.058195  168.499280
+4  2026-01-01   CMP-11     Search  ...  0.050429         0.060678  125.788451
+
+[5 rows x 12 columns]
+<class 'pandas.DataFrame'>
+RangeIndex: 320 entries, 0 to 319
+Data columns (total 12 columns):
+ #   Column            Non-Null Count  Dtype  
+---  ------            --------------  -----  
+ 0   Month             320 non-null    str    
+ 1   Campaign          320 non-null    str    
+ 2   Channel           320 non-null    str    
+ 3   Customer_Segment  320 non-null    str    
+ 4   Spend             320 non-null    float64
+ 5   Impressions       320 non-null    int64  
+ 6   Clicks            320 non-null    int64  
+ 7   Conversions       320 non-null    int64  
+ 8   Revenue           320 non-null    float64
+ 9   CTR               320 non-null    float64
+ 10  Conversion_Rate   320 non-null    float64
+ 11  ROAS              320 non-null    float64
+dtypes: float64(5), int64(3), str(4)
+memory usage: 39.1 KB
+None
+              Spend   Impressions  ...  Conversion_Rate         ROAS
+count    320.000000  3.200000e+02  ...       320.000000   320.000000
+mean    8324.066031  5.447139e+05  ...         0.050334   166.470011
+std     4223.786908  3.145730e+05  ...         0.025372   233.129407
+min     1521.840000  7.469300e+04  ...         0.013170     3.438378
+25%     4592.990000  2.811028e+05  ...         0.029572    39.594240
+50%     7961.005000  5.066650e+05  ...         0.048226   100.747528
+75%    11732.460000  7.584050e+05  ...         0.066999   193.009121
+max    15993.890000  1.377480e+06  ...         0.147899  2510.999786
+
+[8 rows x 8 columns]
+Month               0
+Campaign            0
+Channel             0
+Customer_Segment    0
+Spend               0
+Impressions         0
+Clicks              0
+Conversions         0
+Revenue             0
+CTR                 0
+Conversion_Rate     0
+ROAS                0
+dtype: int64
+duplicates: 0
+Channel
+Display      75
+Social       67
+Affiliate    67
+Search       56
+Email        55
+Name: count, dtype: int64
+Customer_Segment
+New          155
+Returning    126
+HighValue     39
+Name: count, dtype: int64
 
 ### Reflection
 สิ่งที่ Google Sheets ทำด้วย Filter/Pivot เมื่อวาน วันนี้ Python ทำซ้ำได้ด้วย Code
@@ -155,7 +249,18 @@ print(email.head())
 ```python
 high_roas = df.query("ROAS > 3")
 ```
-
+Channel
+Display      75
+Social       67
+Affiliate    67
+Search       56
+Email        55
+Name: count, dtype: int64
+Customer_Segment
+New          155
+Returning    126
+HighValue     39
+Name: count, dtype: int64
 ตอบ:
 
 > Filter นี้ช่วยตอบคำถามอะไร?
@@ -176,6 +281,22 @@ channel_summary = (
 
 print(channel_summary)
 ```
+
+0  2026-04-01   CMP-15     Social  ...  0.033970         0.037371  210.962836
+1  2026-02-01   CMP-14  Affiliate  ...  0.025994         0.053035  107.251179
+2  2026-02-01   CMP-03      Email  ...  0.068372         0.062505  170.733945
+3  2026-07-01   CMP-09  Affiliate  ...  0.042127         0.058195  168.499280
+4  2026-01-01   CMP-11     Search  ...  0.050429         0.060678  125.788451
+
+              Spend   Impressions  ...  Conversion_Rate         ROAS
+count    320.000000  3.200000e+02  ...       320.000000   320.000000
+mean    8324.066031  5.447139e+05  ...         0.050334   166.470011
+std     4223.786908  3.145730e+05  ...         0.025372   233.129407
+min     1521.840000  7.469300e+04  ...         0.013170     3.438378
+25%     4592.990000  2.811028e+05  ...         0.029572    39.594240
+50%     7961.005000  5.066650e+05  ...         0.048226   100.747528
+75%    11732.460000  7.584050e+05  ...         0.066999   193.009121
+max    15993.890000  1.377480e+06  ...         0.147899  2510.999786
 
 ### อ่าน Code ทีละส่วน
 - `groupby("Channel")` → แบ่งข้อมูลตาม Channel
